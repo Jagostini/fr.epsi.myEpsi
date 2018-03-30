@@ -1,6 +1,8 @@
 package fr.epsi.myEpsi.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import fr.epsi.myEpsi.Constantes;
+import fr.epsi.myEpsi.beans.Annonce;
 import fr.epsi.myEpsi.beans.Utilisateur;
+import fr.epsi.myEpsi.dto.AnnonceDTO;
 
 /**
  * Servlet implementation class login
@@ -45,13 +49,19 @@ public class login extends HttpServlet {
 		String pwd = request.getParameter("pwd");
 		Utilisateur utilisateur = new Utilisateur();
 		utilisateur.setId(pseudo);
-		request.getSession().setAttribute(Constantes.PARAM_UTILISATEURS, utilisateur);
+		//request.getSession().setAttribute(Constantes.PARAM_UTILISATEURS, utilisateur);
+		ArrayList<Annonce> annonce = new ArrayList<Annonce>();
+		AnnonceDTO annonceDTO = new AnnonceDTO();
+		annonce = annonceDTO.GetAnnonce();
+		
+		System.out.println(annonce);
+		
+		request.setAttribute("lesAnnonces", annonce);
 		if(pwd != "" && pseudo != "")	{
 			request.getRequestDispatcher("accueil.jsp").forward(request, response);
 		} else {
 			request.getRequestDispatcher("login.html").forward(request, response);
 		}
-		
 
 	}
 

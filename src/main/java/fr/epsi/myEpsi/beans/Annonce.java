@@ -107,6 +107,13 @@ public class Annonce {
 	public void setAchat(Date achat) {
 		this.achat = achat;
 	}
+
+	@Override
+	public String toString() {
+		return "Annonce [id=" + id + ", vendeur=" + vendeur + ", titre=" + titre + ", description=" + description
+				+ ", statut=" + statut + ", prix=" + prix + ", nbVues=" + nbVues + ", creation=" + creation
+				+ ", modification=" + modification + ", acheteur=" + acheteur + ", achat=" + achat + "]";
+	}
 	
 	
 }

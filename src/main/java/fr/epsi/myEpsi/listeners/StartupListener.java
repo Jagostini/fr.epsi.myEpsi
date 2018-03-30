@@ -3,7 +3,10 @@ package fr.epsi.myEpsi.listeners;
 import java.lang.management.ManagementFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.MBeanRegistrationException;
@@ -18,6 +21,7 @@ import javax.servlet.annotation.WebListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.epsi.myEpsi.beans.Utilisateur;
 import fr.epsi.myEpsi.mbeans.Premier;
 
 /**
@@ -49,7 +53,7 @@ public class StartupListener implements ServletContextListener {
     	try {
     		Class.forName("org.hsqldb.jdbcDriver");
     		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
-    		logger.error("Connexion OK");
+    		//logger.error("Connexion OK");
         	con.close();
     	} catch (ClassNotFoundException | SQLException e){
     		logger.error("Connexion impossible " + e.getMessage());
