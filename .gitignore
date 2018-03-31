@@ -4,3 +4,6 @@
 build
 target/
 src/main/resources/db/_startServer.bat
+src/main/resources/db/projet1.lck
+src/main/resources/db/projet1.log
+src/main/resources/db/projet1.properties
