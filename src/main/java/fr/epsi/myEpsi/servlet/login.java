@@ -14,6 +14,7 @@ import fr.epsi.myEpsi.Constantes;
 import fr.epsi.myEpsi.beans.Annonce;
 import fr.epsi.myEpsi.beans.Utilisateur;
 import fr.epsi.myEpsi.dto.AnnonceDTO;
+import fr.epsi.myEpsi.dto.UserDTO;
 
 /**
  * Servlet implementation class login
@@ -54,10 +55,26 @@ public class login extends HttpServlet {
 		AnnonceDTO annonceDTO = new AnnonceDTO();
 		annonce = annonceDTO.GetAnnonce();
 		
-		System.out.println(annonce);
+		UserDTO userDTO = new UserDTO();
+		ArrayList<Utilisateur> users = new ArrayList<Utilisateur>();
+		users = userDTO.GetUsers();
 		
+		boolean page = false;
+		
+		
+		System.out.println(users);
+		// users
+		for(Utilisateur u : users) {
+			System.out.println(u.getPassword() + "  " + u.getNom());
+			System.out.println(pwd + " " + pseudo);
+			System.out.println(page);
+			if(u.getPassword().equals(pwd))
+			{
+				page = true;
+			}
+		}
 		request.setAttribute("lesAnnonces", annonce);
-		if(pwd != "" && pseudo != "")	{
+		if(page)	{
 			request.getRequestDispatcher("accueil.jsp").forward(request, response);
 		} else {
 			request.getRequestDispatcher("login.html").forward(request, response);
