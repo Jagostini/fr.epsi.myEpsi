@@ -45,16 +45,13 @@ public class AnnonceDTO {
 	    		logger.error("Connexion OK");
 	    		
 	    		ResultSet resultats = null;
-	    		String requete = "SELECT * FROM USERS";
+	    		String requete = "SELECT * FROM ANNONCES";
 	    		Statement stmt = con.createStatement();
 	    		resultats = stmt.executeQuery(requete);
 	    		
 	    		while(resultats.next()) {
-	    			logger.error(resultats.getObject("PASSWORD"));
-	    			logger.error(resultats.getObject("NOM"));
-	    			logger.error(resultats.getObject("ISADMINISTRATOR"));
-	    			String bino = (String) resultats.getObject("ID");
-	    			a.setDescription(bino);
+	    			String bino = (String) resultats.getObject("TITLE");
+	    			a.setTitre(bino);
 	    			annonces.add(a);
 	    		}
 	    		logger.error(annonces.get(0));
@@ -113,5 +110,35 @@ public class AnnonceDTO {
 		return updateAnnonce;
 		
 	}
+	
+	public boolean AddAnnonce(Annonce annonce) {
+		ArrayList<Annonce> annonces = new ArrayList<Annonce>();
+		Annonce a = new Annonce();
+		a.setTitre("ca marche");
+		int nbMaj = 0;
+	    	logger.error("Test de l'application");
+	    	try {
+	    		Class.forName("org.hsqldb.jdbcDriver");
+	    		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
+	    		logger.error("Connexion OK");
+	    		
+	    		String requete = "INSERT INTO ANNONCES VALUES(4,'" + a.getTitre() + "','content','USER_ID',NULL,NULL,NULL,NULL,NULL,NULL,NULL)";
+	    		Statement stmt = con.createStatement();
+	    		nbMaj = stmt.executeUpdate(requete);
+	    		System.out.println(nbMaj);
+	    		
+	        	con.close();
+	    	} catch (ClassNotFoundException | SQLException e){
+	    		logger.error("Connexion impossible " + e.getMessage());
+	    	}
+	    	
+	    		if(nbMaj > 0) {
+	    			return true;
+	    		} else {
+	    			return false;
+	    		}
+	}
+	
+	
 	
 }

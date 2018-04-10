@@ -52,6 +52,7 @@ public class login extends HttpServlet {
 		utilisateur.setId(pseudo);
 		//request.getSession().setAttribute(Constantes.PARAM_UTILISATEURS, utilisateur);
 		ArrayList<Annonce> annonce = new ArrayList<Annonce>();
+		Annonce ann = new Annonce();
 		AnnonceDTO annonceDTO = new AnnonceDTO();
 		annonce = annonceDTO.GetAnnonce();
 		
@@ -61,6 +62,8 @@ public class login extends HttpServlet {
 		
 		boolean page = false;
 		
+		
+		System.out.println("@@@@@@@@@" + annonceDTO.AddAnnonce(ann));
 		
 		System.out.println(users);
 		// users

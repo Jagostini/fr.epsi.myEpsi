@@ -66,5 +66,26 @@ public class UserDTO {
 	    	
 	    		return users;
 	}
+	
+	public boolean AddUsers(Utilisateur user) {
+		ArrayList<Utilisateur> users = new ArrayList<Utilisateur>();
+	    	logger.error("Test de l'application");
+	    	try {
+	    		Class.forName("org.hsqldb.jdbcDriver");
+	    		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
+	    		logger.error("Connexion OK");
+	    		
+	    		String requete = "INSERT INTO USERS VALUES('" + user.getId() + "','" + user.getPassword() + "','" + user.getNom() + "',NULL,FALSE)";
+	    		Statement stmt = con.createStatement();
+	    		int nbMaj = stmt.executeUpdate(requete);
+	    		System.out.println(nbMaj);
+	    		
+	        	con.close();
+	    	} catch (ClassNotFoundException | SQLException e){
+	    		logger.error("Connexion impossible " + e.getMessage());
+	    	}
+	    	
+	    		return true;
+	}
 
 }
