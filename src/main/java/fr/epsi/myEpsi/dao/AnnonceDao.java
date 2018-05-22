@@ -1,9 +1,10 @@
-package fr.epsi.myEpsi.dto;
+package fr.epsi.myEpsi.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.epsi.myEpsi.beans.Annonce;
 import fr.epsi.myEpsi.beans.Utilisateur;
@@ -29,41 +30,63 @@ import javax.servlet.annotation.WebListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AnnonceDTO {
+public class AnnonceDao implements IAnnonceDao {
 	
 	private static final Logger logger = LogManager.getLogger(StartupListener.class);
 	
-	public ArrayList<Annonce> GetAnnonce() {
+	public List<Annonce> get(Utilisateur utilisateur) {
 		ArrayList<Annonce> annonces = new ArrayList<Annonce>();
-		Annonce a = new Annonce();
-		a.setTitre("bonjour");
-		a.setDescription("coucou");
 	    	logger.error("Test de l'application");
 	    	try {
+	    		// Connexion BDD
 	    		Class.forName("org.hsqldb.jdbcDriver");
 	    		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
 	    		logger.error("Connexion OK");
 	    		
+	    		// Requete BDD
 	    		ResultSet resultats = null;
 	    		String requete = "SELECT * FROM ANNONCES";
 	    		Statement stmt = con.createStatement();
 	    		resultats = stmt.executeQuery(requete);
 	    		
+	    		// Traitement Requete
 	    		while(resultats.next()) {
-	    			String bino = (String) resultats.getObject("TITLE");
-	    			a.setTitre(bino);
+	    			Annonce a = new Annonce();
+	    			a.setTitre((String) resultats.getObject("TITLE"));
+	    			a.setId((int)resultats.getObject("ID"));
+	    			a.setDescription((String)resultats.getObject("content"));
+	    			System.out.println(a.toString());
 	    			annonces.add(a);
 	    		}
 	    		logger.error(annonces.get(0));
 	        	con.close();
 	    	} catch (ClassNotFoundException | SQLException e){
-	    		logger.error("Connexion impossible " + e.getMessage());
+	    		logger.debug("Connexion impossible " + e.getMessage());
 	    	}
 	    	
 	    		return annonces;
 	}
+
+	@Override
+	public boolean create(Annonce annonce) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean update(Annonce annonce) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Annonce get(int id) {
+		// TODO Auto-generated method stub
+		
+		return null;
+	}
 	
-	public boolean SetAnnonce(ArrayList<Annonce> annonce) {
+	/*public boolean SetAnnonce(ArrayList<Annonce> annonce) {
 		boolean updateAnnonce = true;
 	    	logger.error("Set Annonce");
 	    	try {
@@ -137,8 +160,6 @@ public class AnnonceDTO {
 	    		} else {
 	    			return false;
 	    		}
-	}
-	
-	
+	}*/
 	
 }

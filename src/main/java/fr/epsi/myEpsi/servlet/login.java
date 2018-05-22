@@ -1,5 +1,6 @@
 package fr.epsi.myEpsi.servlet;
 
+import java.awt.List;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -13,8 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import fr.epsi.myEpsi.Constantes;
 import fr.epsi.myEpsi.beans.Annonce;
 import fr.epsi.myEpsi.beans.Utilisateur;
-import fr.epsi.myEpsi.dto.AnnonceDTO;
-import fr.epsi.myEpsi.dto.UserDTO;
+import fr.epsi.myEpsi.dao.AnnonceDao;
+import fr.epsi.myEpsi.dao.IAnnonceDao;
+import fr.epsi.myEpsi.dao.IUserDao;
+import fr.epsi.myEpsi.dao.UserDao;
 
 /**
  * Servlet implementation class login
@@ -44,42 +47,58 @@ public class login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		// TODO Auto-generated method stub
 		doGet(request, response);
+		
+		// Recuperate param
 		String pseudo = request.getParameter("pseudo");
 		String pwd = request.getParameter("pwd");
+		
+		// Create user
 		Utilisateur utilisateur = new Utilisateur();
 		utilisateur.setId(pseudo);
-		//request.getSession().setAttribute(Constantes.PARAM_UTILISATEURS, utilisateur);
-		ArrayList<Annonce> annonce = new ArrayList<Annonce>();
-		Annonce ann = new Annonce();
-		AnnonceDTO annonceDTO = new AnnonceDTO();
-		annonce = annonceDTO.GetAnnonce();
+		Constantes.PARAM_UTILISATEURS = pseudo;
 		
-		UserDTO userDTO = new UserDTO();
+		
+		//request.getSession().setAttribute(Constantes.PARAM_UTILISATEURS, utilisateur);
+		
+		// Take announce
+		// List annonce = new List();
+		// Annonce ann = new Annonce();
+		// IAnnonceDao annonceDAO = new AnnonceDao();
+		// annonce = annonceDTO.get(utilisateur);
+		// annonceDAO.get
+		
+		// Take users
+		ArrayList<Utilisateur> users = new ArrayList<Utilisateur>();
+		IUserDao userDao = new UserDao();
+		users = (ArrayList<Utilisateur>) userDao.getAllUtilisateur();
+		
+		
+		/*UserDao userDTO = new UserDao();
 		ArrayList<Utilisateur> users = new ArrayList<Utilisateur>();
 		users = userDTO.GetUsers();
+		System.out.print(users);*/
 		
 		boolean page = false;
 		
-		
-		System.out.println("@@@@@@@@@" + annonceDTO.AddAnnonce(ann));
-		
-		System.out.println(users);
+		// System.out.println("@@@@@@@@@" + annonceDTO.AddAnnonce(ann));
+		// System.out.println(users);
 		// users
+		
 		for(Utilisateur u : users) {
-			System.out.println(u.getPassword() + "  " + u.getNom());
-			System.out.println(pwd + " " + pseudo);
-			System.out.println(page);
 			if(u.getPassword().equals(pwd))
 			{
-				page = true;
+				page = true;		
 			}
 		}
-		request.setAttribute("lesAnnonces", annonce);
+		request.setAttribute("lesAnnonces", users);
 		if(page)	{
+			// Logger connexion reussis
 			request.getRequestDispatcher("accueil.jsp").forward(request, response);
 		} else {
+			// Logger connexion échoué
 			request.getRequestDispatcher("login.html").forward(request, response);
 		}
 

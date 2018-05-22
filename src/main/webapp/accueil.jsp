@@ -14,10 +14,10 @@
 <body>
  <h1> b </h1>
 <% 
-            ArrayList<Annonce> attribut = new ArrayList<Annonce>(); 
+            /*ArrayList<Annonce> attribut = new ArrayList<Annonce>(); 
 		    attribut = (ArrayList<Annonce>) request.getAttribute("lesAnnonces");
             out.println( attribut );
-            attribut.toString();
+            attribut.toString();*/
             
             
             

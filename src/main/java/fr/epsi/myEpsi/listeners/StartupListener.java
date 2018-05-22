@@ -53,7 +53,7 @@ public class StartupListener implements ServletContextListener {
     	try {
     		Class.forName("org.hsqldb.jdbcDriver");
     		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
-    		//logger.error("Connexion OK");
+    		logger.error("Connexion OK");
         	con.close();
     	} catch (ClassNotFoundException | SQLException e){
     		logger.error("Connexion impossible " + e.getMessage());

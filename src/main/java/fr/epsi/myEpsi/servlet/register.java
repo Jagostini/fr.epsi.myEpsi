@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.epsi.myEpsi.beans.Utilisateur;
-import fr.epsi.myEpsi.dto.UserDTO;
+import fr.epsi.myEpsi.dao.UserDao;
 
 /**
  * Servlet implementation class Register
@@ -55,8 +55,8 @@ public class register extends HttpServlet {
 		user.setTelephone(tel);
 		user.toString();
 		
-		UserDTO AddUser = new UserDTO();
-		System.out.print(AddUser.AddUsers(user));
+		UserDao AddUser = new UserDao();
+		System.out.print(AddUser.AddUsers(user) + "///////");
 		
 		request.getRequestDispatcher("login.html").forward(request, response);
 	}
