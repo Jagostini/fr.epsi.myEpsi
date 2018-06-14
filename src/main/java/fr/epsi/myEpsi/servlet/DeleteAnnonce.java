@@ -9,10 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import fr.epsi.myEpsi.Constantes;
 import fr.epsi.myEpsi.beans.Annonce;
 import fr.epsi.myEpsi.dao.AnnonceDao;
 import fr.epsi.myEpsi.dao.IAnnonceDao;
+import fr.epsi.myEpsi.listeners.StartupListener;
 
 /**
  * Servlet implementation class DeleteAnnonce
@@ -20,6 +24,7 @@ import fr.epsi.myEpsi.dao.IAnnonceDao;
 @WebServlet("/DeleteAnnonce")
 public class DeleteAnnonce extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LogManager.getLogger(StartupListener.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -67,7 +72,7 @@ public class DeleteAnnonce extends HttpServlet {
 			annoncesAdd = (boolean) annonceDaos.delete(Integer.parseInt(id));
 		}
 		
-		
+		logger.info("Servlet suppression annonce");
 		
 		request.setAttribute("resultat", page);
 		request.getRequestDispatcher("response.jsp").forward(request, response);

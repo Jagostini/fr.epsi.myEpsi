@@ -106,6 +106,7 @@ public class AnnonceDao implements IAnnonceDao {
 	@Override
 	public int create(Annonce annonce) {
 		// TODO Auto-generated method stub
+		logger.debug("ajout d'une annonce dao");
 		int nbMaj=0;
 		try {
 			// Connexion BDD
@@ -128,11 +129,29 @@ public class AnnonceDao implements IAnnonceDao {
 	@Override
 	public int update(Annonce annonce) {
 		// TODO Auto-generated method stub
-		return 3;
+		logger.debug("Requete update Annonce DAO");
+		int nbMaj=0;
+		try {
+			// Connexion BDD
+			Class.forName("org.hsqldb.jdbcDriver");
+			Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
+			logger.info("Connexion OK");
+		
+			// Requete BDD
+			String requete = "UPDATE ANNONCES SET(STATUS='" + annonce.getStatut() + "', BUY_DATE='" + annonce.getAchat() +"',BUYER='" + annonce.getAcheteur().getId() + "') WHERE ID =" + annonce.getId();
+			
+			Statement stmt = con.createStatement();
+			nbMaj = stmt.executeUpdate(requete);
+			con.close();
+		} catch (ClassNotFoundException | SQLException e){
+			logger.error("Connexion impossible " + e.getMessage());
+		}
+		return nbMaj;
 	}
 
 	@Override
 	public List<Annonce> getMesAnnonces(String id) {
+		logger.debug("Requete mes annonces AnnonceDAO");
 		// TODO Auto-generated method stub
 		
 		ArrayList<Annonce> annonces = new ArrayList<Annonce>();
@@ -173,81 +192,5 @@ public class AnnonceDao implements IAnnonceDao {
 		
 		return annonces;
 	}
-	
-	/*public boolean SetAnnonce(ArrayList<Annonce> annonce) {
-		boolean updateAnnonce = true;
-	    	logger.error("Set Annonce");
-	    	try {
-	    		Class.forName("org.hsqldb.jdbcDriver");
-	    		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
-	    		logger.error("Connexion OK");
-	    		
-	    		ResultSet resultats = null;
-	    		String requete = "UPDATE * SET USERS";
-	    		Statement stmt = con.createStatement();
-	    		resultats = stmt.executeQuery(requete);
-	    		
-	    		// resultats sortir un boolean pour dire si c'est ok
-	    		
-	        	con.close();
-	    	} catch (ClassNotFoundException | SQLException e){
-	    		logger.error("Connexion impossible " + e.getMessage());
-	    	}
-	    	
-	    	MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-	    	ObjectName name = null;
-
-	    	try {
-	    	    name = new ObjectName("fr.epsi.jmx:type=PremierMBean");
-	    	    Premier mbean = new Premier();
-	    	    mbs.registerMBean(mbean, name);
-
-	    	}
-	    	catch (MalformedObjectNameException e) {
-	    	    e.printStackTrace();
-	    	}
-	    	catch (NullPointerException e) {
-	    	    e.printStackTrace();
-	    	}
-	    	catch (InstanceAlreadyExistsException e) {
-	    	    e.printStackTrace();
-	    	}
-	    	catch (MBeanRegistrationException e) {
-	    	    e.printStackTrace();
-	    	}
-	    	catch (NotCompliantMBeanException e) {
-	    	    e.printStackTrace();
-	    	}
-		return updateAnnonce;
-		
-	}
-	
-	public boolean AddAnnonce(Annonce annonce) {
-		ArrayList<Annonce> annonces = new ArrayList<Annonce>();
-		Annonce a = new Annonce();
-		a.setTitre("ca marche");
-		int nbMaj = 0;
-	    	logger.error("Test de l'application");
-	    	try {
-	    		Class.forName("org.hsqldb.jdbcDriver");
-	    		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
-	    		logger.error("Connexion OK");
-	    		
-	    		String requete = "INSERT INTO ANNONCES VALUES(4,'" + a.getTitre() + "','content','USER_ID',NULL,NULL,NULL,NULL,NULL,NULL,NULL)";
-	    		Statement stmt = con.createStatement();
-	    		nbMaj = stmt.executeUpdate(requete);
-	    		System.out.println(nbMaj);
-	    		
-	        	con.close();
-	    	} catch (ClassNotFoundException | SQLException e){
-	    		logger.error("Connexion impossible " + e.getMessage());
-	    	}
-	    	
-	    		if(nbMaj > 0) {
-	    			return true;
-	    		} else {
-	    			return false;
-	    		}
-	}*/
 	
 }

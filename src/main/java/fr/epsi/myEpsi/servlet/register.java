@@ -9,9 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import fr.epsi.myEpsi.beans.Utilisateur;
 import fr.epsi.myEpsi.dao.IUserDao;
 import fr.epsi.myEpsi.dao.UserDao;
+import fr.epsi.myEpsi.listeners.StartupListener;
 
 /**
  * Servlet implementation class Register
@@ -19,6 +23,7 @@ import fr.epsi.myEpsi.dao.UserDao;
 @WebServlet("/register")
 public class register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LogManager.getLogger(StartupListener.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -78,6 +83,8 @@ public class register extends HttpServlet {
 			UserDao AddUser = new UserDao();
 			AddUser.AddUsers(user);
 		}
+		
+		logger.info("Servlet enregistrement client");
 		
 		request.getRequestDispatcher("login.html").forward(request, response);
 	}

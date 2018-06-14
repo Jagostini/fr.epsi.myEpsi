@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import fr.epsi.myEpsi.Constantes;
 import fr.epsi.myEpsi.beans.Annonce;
@@ -18,6 +20,7 @@ import fr.epsi.myEpsi.dao.AnnonceDao;
 import fr.epsi.myEpsi.dao.IAnnonceDao;
 import fr.epsi.myEpsi.dao.IUserDao;
 import fr.epsi.myEpsi.dao.UserDao;
+import fr.epsi.myEpsi.listeners.StartupListener;
 
 /**
  * Servlet implementation class login
@@ -25,6 +28,7 @@ import fr.epsi.myEpsi.dao.UserDao;
 @WebServlet("/login")
 public class login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LogManager.getLogger(StartupListener.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -50,7 +54,6 @@ public class login extends HttpServlet {
 		
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		
 		// Recuperate param
 		String pseudo = request.getParameter("pseudo");
 		String pwd = request.getParameter("pwd");
@@ -77,6 +80,7 @@ public class login extends HttpServlet {
 		ArrayList<Annonce> annonces = new ArrayList<Annonce>();
 		IAnnonceDao annonceDao = new AnnonceDao();
 		annonces = (ArrayList<Annonce>) annonceDao.get(utilisateur);
+		logger.info("Servlet logging");
 		
 		request.setAttribute("lesAnnonces", annonces);
 		

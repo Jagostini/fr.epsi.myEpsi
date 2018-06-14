@@ -21,7 +21,12 @@ import javax.servlet.annotation.WebListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.epsi.myEpsi.beans.Annonce;
 import fr.epsi.myEpsi.beans.Utilisateur;
+import fr.epsi.myEpsi.dao.AnnonceDao;
+import fr.epsi.myEpsi.dao.IAnnonceDao;
+import fr.epsi.myEpsi.dao.IUserDao;
+import fr.epsi.myEpsi.dao.UserDao;
 import fr.epsi.myEpsi.mbeans.ChangeLog;
 import fr.epsi.myEpsi.mbeans.Premier;
 
@@ -51,6 +56,20 @@ public class StartupListener implements ServletContextListener {
      */
     public void contextInitialized(ServletContextEvent event)  { 
     	logger.info("Test de l'application");
+    	
+    	ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
+    	IUserDao utilisateurDao = new UserDao();
+    	utilisateurs = (ArrayList<Utilisateur>) utilisateurDao.getAllUtilisateur();
+    	
+    	logger.error("Nombre d'utilisateur " + utilisateurs.size());
+    	
+    	
+    	// Take Announce
+    	Utilisateur utilisateur = new Utilisateur();
+    	ArrayList<Annonce> annonces = new ArrayList<Annonce>();
+    	IAnnonceDao annonceDao = new AnnonceDao();
+    	annonces = (ArrayList<Annonce>) annonceDao.get(utilisateur);
+    	logger.error("Nombre d'annonce " + annonces.size());
     	try {
     		Class.forName("org.hsqldb.jdbcDriver");
     		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");

@@ -31,11 +31,11 @@ public class UserDao implements IUserDao {
 	public ArrayList<Utilisateur> GetUsers() {
 		ArrayList<Utilisateur> users = new ArrayList<Utilisateur>();
 		Utilisateur user = new Utilisateur();
-	    	logger.debug("Test de l'application");
+	    	logger.debug("recuperation de tout les utilisateur UserDAO");
 	    	try {
 	    		Class.forName("org.hsqldb.jdbcDriver");
 	    		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
-	    		logger.info("Connexion OK");
+	    		logger.debug("Connexion OK");
 	    		
 	    		ResultSet resultats = null;
 	    		String requete = "SELECT * FROM USERS";
@@ -43,8 +43,6 @@ public class UserDao implements IUserDao {
 	    		resultats = stmt.executeQuery(requete);
 	    		
 	    		while(resultats.next()) {
-	    			logger.info(resultats.getObject("PASSWORD"));
-	    			logger.info(resultats.getObject("NOM"));
 	    			String id = (String) resultats.getObject("ID");
 	    			user.setId(id);
 	    			String pwd = (String) resultats.getObject("PASSWORD");
@@ -53,10 +51,8 @@ public class UserDao implements IUserDao {
 	    			user.setNom(name);
 	    			String tel = (String) resultats.getObject("TELEPHONE");
 	    			user.setTelephone(tel);
-	    			logger.debug(user);
 	    			users.add(user);
 	    		}
-	    		logger.debug(users.get(0));
 	        	con.close();
 	    	} catch (ClassNotFoundException | SQLException e){
 	    		logger.error("Connexion impossible " + e.getMessage());
@@ -67,16 +63,15 @@ public class UserDao implements IUserDao {
 	
 	public boolean AddUsers(Utilisateur user) {
 		ArrayList<Utilisateur> users = new ArrayList<Utilisateur>();
-	    	logger.debug("Test de l'application");
+	    	logger.debug("Ajout d'un utilisateur UserDAO");
 	    	try {
 	    		Class.forName("org.hsqldb.jdbcDriver");
 	    		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
-	    		logger.info("Connexion OK");
+	    		
 	    		
 	    		String requete = "INSERT INTO USERS VALUES('" + user.getId() + "','" + user.getPassword() + "','" + user.getNom() + "',NULL,FALSE)";
 	    		Statement stmt = con.createStatement();
 	    		int nbMaj = stmt.executeUpdate(requete);
-	    		System.out.println(nbMaj + "//////////////");
 	    		
 	        	con.close();
 	    	} catch (ClassNotFoundException | SQLException e){
@@ -114,7 +109,7 @@ public class UserDao implements IUserDao {
 	public List<Utilisateur> getAllUtilisateur() {
 		// TODO Auto-generated method stub
 		ArrayList<Utilisateur> users = new ArrayList<Utilisateur>();
-	    	logger.debug("Test de l'application");
+	    	logger.debug("Fonction UserDao recupere tout les utilisateurs");
 	    	try {
 	    		Class.forName("org.hsqldb.jdbcDriver");
 	    		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
@@ -127,8 +122,6 @@ public class UserDao implements IUserDao {
 	    		
 	    		while(resultats.next()) {
 	    			Utilisateur user = new Utilisateur();
-	    			logger.debug(resultats.getObject("PASSWORD"));
-	    			logger.debug(resultats.getObject("NOM"));
 	    			
 	    			// ID
 	    			String id = (String) resultats.getObject("ID");
@@ -147,10 +140,8 @@ public class UserDao implements IUserDao {
 	    			user.setTelephone(tel);
 	    			
 	    			// ADD USER IN LIST
-	    			logger.debug(user);
 	    			users.add(user);
 	    		}
-	    		logger.debug(users.get(0));
 	        	con.close();
 	    	} catch (ClassNotFoundException | SQLException e){
 	    		logger.error("Connexion impossible " + e.getMessage());

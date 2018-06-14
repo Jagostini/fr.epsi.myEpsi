@@ -22,6 +22,7 @@
  	  <th>Status</th>
  	  <th>Date de modification</th>
  	  <th>Annonce cree le </th>
+ 	  <th>Achat</th>
    </tr>
    <% 
        ArrayList<Annonce> attribut = new ArrayList<Annonce>(); 
@@ -51,6 +52,13 @@
 		</td>
 		<td>
 			<%= annonce.getCreation() %>
+		</td>
+		<td>
+			<form method="post" action="achat">
+      			<fieldset>
+      				<button name="id" value="<%=annonce.getId()%>" >Acheter</button>
+      			</fieldset>
+   			</form>
 		</td>
 	</tr>
 	<%}%>

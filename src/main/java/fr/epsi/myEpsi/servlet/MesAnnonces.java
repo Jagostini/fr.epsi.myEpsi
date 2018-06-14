@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import fr.epsi.myEpsi.Constantes;
 import fr.epsi.myEpsi.beans.Annonce;
 import fr.epsi.myEpsi.beans.Utilisateur;
@@ -16,6 +19,7 @@ import fr.epsi.myEpsi.dao.AnnonceDao;
 import fr.epsi.myEpsi.dao.IAnnonceDao;
 import fr.epsi.myEpsi.dao.IUserDao;
 import fr.epsi.myEpsi.dao.UserDao;
+import fr.epsi.myEpsi.listeners.StartupListener;
 
 /**
  * Servlet implementation class MesAnnonces
@@ -23,6 +27,7 @@ import fr.epsi.myEpsi.dao.UserDao;
 @WebServlet("/MesAnnonces")
 public class MesAnnonces extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LogManager.getLogger(StartupListener.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -53,6 +58,8 @@ public class MesAnnonces extends HttpServlet {
 		ArrayList<Annonce> annonces = new ArrayList<Annonce>();
 		IAnnonceDao annonceDao = new AnnonceDao();
 		annonces = (ArrayList<Annonce>) annonceDao.getMesAnnonces(Constantes.PARAM_UTILISATEURS);
+		
+		logger.info("Servlet Mes annonces");
 		
 		request.setAttribute("lesAnnonces", annonces);
 		request.getRequestDispatcher("annonce.jsp").forward(request, response);

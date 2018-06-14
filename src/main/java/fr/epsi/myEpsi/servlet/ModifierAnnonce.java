@@ -7,12 +7,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import fr.epsi.myEpsi.listeners.StartupListener;
+
 /**
  * Servlet implementation class ModifierAnnonce
  */
 @WebServlet("/ModifierAnnonce")
 public class ModifierAnnonce extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LogManager.getLogger(StartupListener.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,6 +42,8 @@ public class ModifierAnnonce extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+		
+		logger.info("Modifier annonce");
 	}
 
 }
