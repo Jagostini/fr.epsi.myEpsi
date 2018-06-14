@@ -7,9 +7,10 @@ import fr.epsi.myEpsi.beans.Utilisateur;
 
 public interface IAnnonceDao {
 
-	boolean create(Annonce annonce);
-	boolean update(Annonce annonce);
-	Annonce get(int id);
+	int create(Annonce annonce);
+	int update(Annonce annonce);
+	boolean delete(long id);
+	List<Annonce> getMesAnnonces(String id);
 	List<Annonce> get(Utilisateur utilisateur);
 
 }

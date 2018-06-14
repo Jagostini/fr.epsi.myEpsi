@@ -12,16 +12,55 @@
 <title>Insert title here</title>
 </head>
 <body>
- <h1> b </h1>
-<% 
-            /*ArrayList<Annonce> attribut = new ArrayList<Annonce>(); 
-		    attribut = (ArrayList<Annonce>) request.getAttribute("lesAnnonces");
-            out.println( attribut );
-            attribut.toString();*/
+ <h1> Annonce disponible </h1>
+ <table>
+   <tr>
+ 	  <th>Titre</th>
+ 	  <th>Prix</th>
+ 	  <th>Resume</th>
+ 	  <th>Vendeur</th>
+ 	  <th>Status</th>
+ 	  <th>Date de modification</th>
+ 	  <th>Annonce cree le </th>
+   </tr>
+   <% 
+       ArrayList<Annonce> attribut = new ArrayList<Annonce>(); 
+	   attribut = (ArrayList<Annonce>) request.getAttribute("lesAnnonces");
+	   
+       for (Annonce annonce : attribut) {
             
-            
-            
-%>
+    %>
+	<tr>
+		<td>
+			<%=annonce.getTitre()%>
+		</td>
+		<td>
+			<%=annonce.getPrix()%>
+		</td>
+		<td>
+			<%= annonce.getDescription()%>
+		</td>
+		<td>
+			<%= annonce.getVendeur().getId() %>
+		</td>
+		<td>
+			<%= annonce.getStatut()%>
+		</td>
+		<td>
+			<%=annonce.getModification()%>
+		</td>
+		<td>
+			<%= annonce.getCreation() %>
+		</td>
+	</tr>
+	<%}%>
+  </table>
+  
+  <form method="post" action="MesAnnonces">
+      <fieldset>
+         <input type="submit" value="Mes annonces" class="sansLabel" />
+      </fieldset>
+   </form>
 	
 <!-- <%// Utilisateur utilisateur = (Utilisateur) session.getAttribute(Constantes.PARAM_UTILISATEURS); %>
 <% //utilisateur.getId() %> -->

@@ -9,21 +9,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.epsi.myEpsi.Constantes;
+import fr.epsi.myEpsi.beans.Annonce;
 import fr.epsi.myEpsi.beans.Utilisateur;
+import fr.epsi.myEpsi.dao.AnnonceDao;
+import fr.epsi.myEpsi.dao.IAnnonceDao;
 import fr.epsi.myEpsi.dao.IUserDao;
 import fr.epsi.myEpsi.dao.UserDao;
 
 /**
- * Servlet implementation class Register
+ * Servlet implementation class MesAnnonces
  */
-@WebServlet("/register")
-public class register extends HttpServlet {
+@WebServlet("/MesAnnonces")
+public class MesAnnonces extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public register() {
+    public MesAnnonces() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,44 +46,16 @@ public class register extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		String pseudo = request.getParameter("pseudo");
-		String pwd = request.getParameter("pwd");
-		String tel = request.getParameter("tel");
-		String mail = request.getParameter("mail");
-		String pwdbis = request.getParameter("pwdBis");
 		
-		System.out.print(mail);
-		System.out.print(tel);
-		System.out.print(pwd);
-		System.out.print(pseudo);
-		Utilisateur user = new Utilisateur();
-		user.setAdministrateur(false);
-		user.setId(mail);
-		user.setNom(pseudo);
-		user.setPassword(pwd);
-		user.setTelephone(tel);
-		user.toString();
+		//Annonce
 		
-		boolean page = true;
+		// Take Announce
+		ArrayList<Annonce> annonces = new ArrayList<Annonce>();
+		IAnnonceDao annonceDao = new AnnonceDao();
+		annonces = (ArrayList<Annonce>) annonceDao.getMesAnnonces(Constantes.PARAM_UTILISATEURS);
 		
-		// Take users
-		ArrayList<Utilisateur> users = new ArrayList<Utilisateur>();
-		IUserDao userDao = new UserDao();
-		users = (ArrayList<Utilisateur>) userDao.getAllUtilisateur();
-				
-		for(Utilisateur u : users) {
-			if(u.getId().equals(user.getId()))
-			{
-				page = false;		
-			}
-		}
-		
-		if(page && pwd.equals(pwdbis)) {
-			UserDao AddUser = new UserDao();
-			AddUser.AddUsers(user);
-		}
-		
-		request.getRequestDispatcher("login.html").forward(request, response);
+		request.setAttribute("lesAnnonces", annonces);
+		request.getRequestDispatcher("annonce.jsp").forward(request, response);
 	}
 
 }
