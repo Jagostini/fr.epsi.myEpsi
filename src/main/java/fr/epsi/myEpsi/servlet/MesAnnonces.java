@@ -1,6 +1,5 @@
 package fr.epsi.myEpsi.servlet;
 
-import java.awt.List;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -23,17 +22,17 @@ import fr.epsi.myEpsi.dao.UserDao;
 import fr.epsi.myEpsi.listeners.StartupListener;
 
 /**
- * Servlet implementation class login
+ * Servlet implementation class MesAnnonces
  */
-@WebServlet("/login")
-public class login extends HttpServlet {
+@WebServlet("/MesAnnonces")
+public class MesAnnonces extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LogManager.getLogger(StartupListener.class);
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public login() {
+    public MesAnnonces() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,54 +43,26 @@ public class login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		// Recuperate param
-		String pseudo = request.getParameter("pseudo");
-		String pwd = request.getParameter("pwd");
-		boolean page = false;
 		
-		// Create user
-		Utilisateur utilisateur = new Utilisateur();
-		
-		// Take users
-		ArrayList<Utilisateur> users = new ArrayList<Utilisateur>();
-		IUserDao userDao = new UserDao();
-		users = (ArrayList<Utilisateur>) userDao.getAllUtilisateur();
-		
-		for(Utilisateur u : users) {
-			if(u.getPassword().equals(pwd) && u.getId().equals(pseudo))
-			{
-				utilisateur = u;
-				page = true;		
-			}
-		}
-		Constantes.PARAM_UTILISATEURS = utilisateur.getId();
+		//Annonce
 		
 		// Take Announce
 		ArrayList<Annonce> annonces = new ArrayList<Annonce>();
 		IAnnonceDao annonceDao = new AnnonceDao();
-		annonces = (ArrayList<Annonce>) annonceDao.get(utilisateur);
-		logger.info("Servlet logging");
+		annonces = (ArrayList<Annonce>) annonceDao.getMesAnnonces(Constantes.PARAM_UTILISATEURS);
+		
+		logger.info("Servlet Mes annonces");
 		
 		request.setAttribute("lesAnnonces", annonces);
-		
-		if(page)	{
-			// Logger connexion reussis
-			request.getRequestDispatcher("accueil.jsp").forward(request, response);
-		} else {
-			// Logger connexion échoué
-			request.getRequestDispatcher("login.html").forward(request, response);
-		}
-
+		request.getRequestDispatcher("annonce.jsp").forward(request, response);
 	}
 
 }

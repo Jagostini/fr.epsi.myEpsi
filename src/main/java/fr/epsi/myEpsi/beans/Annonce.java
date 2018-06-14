@@ -4,12 +4,12 @@ import java.util.Date;
 
 public class Annonce {
 	
-	private int id;
+	private long id;
 	private Utilisateur vendeur;
 	private String titre;
 	private String description;
-	private int statut;
-	private Double prix;
+	private String statut;
+	private int prix;
 	private long nbVues;
 	private Date creation;
 	private Date modification;
@@ -17,14 +17,14 @@ public class Annonce {
 	private Date achat;
 	
 	public Annonce() {
-		statut = Statuts.TEMPORAIRE;
+		// statut = Statuts.TEMPORAIRE;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -52,19 +52,19 @@ public class Annonce {
 		this.description = description;
 	}
 
-	public int getStatut() {
+	public String getStatut() {
 		return statut;
 	}
 
-	public void setStatut(int statut) {
+	public void setStatut(String statut) {
 		this.statut = statut;
 	}
 
-	public Double getPrix() {
+	public int getPrix() {
 		return prix;
 	}
 
-	public void setPrix(Double prix) {
+	public void setPrix(int prix) {
 		this.prix = prix;
 	}
 
@@ -106,6 +106,13 @@ public class Annonce {
 
 	public void setAchat(Date achat) {
 		this.achat = achat;
+	}
+
+	@Override
+	public String toString() {
+		return "Annonce [id=" + id + ", vendeur=" + vendeur + ", titre=" + titre + ", description=" + description
+				+ ", statut=" + statut + ", prix=" + prix + ", nbVues=" + nbVues + ", creation=" + creation
+				+ ", modification=" + modification + ", acheteur=" + acheteur + ", achat=" + achat + "]";
 	}
 	
 	

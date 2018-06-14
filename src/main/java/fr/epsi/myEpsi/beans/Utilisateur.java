@@ -52,5 +52,11 @@ public class Utilisateur {
 		this.administrateur = administrateur;
 	}
 
+	@Override
+	public String toString() {
+		return "Utilisateur [id=" + id + ", nom=" + nom + ", password=" + password + ", telephone=" + telephone
+				+ ", administrateur=" + administrateur + "]";
+	}
+
 	
 }

@@ -1,9 +1,6 @@
 package fr.epsi.myEpsi.servlet;
 
-import java.awt.List;
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,27 +10,29 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Date;
+
 import fr.epsi.myEpsi.Constantes;
 import fr.epsi.myEpsi.beans.Annonce;
 import fr.epsi.myEpsi.beans.Utilisateur;
 import fr.epsi.myEpsi.dao.AnnonceDao;
 import fr.epsi.myEpsi.dao.IAnnonceDao;
-import fr.epsi.myEpsi.dao.IUserDao;
-import fr.epsi.myEpsi.dao.UserDao;
 import fr.epsi.myEpsi.listeners.StartupListener;
 
+import java.sql.Timestamp;
+
 /**
- * Servlet implementation class login
+ * Servlet implementation class AjoutAnnonce
  */
-@WebServlet("/login")
-public class login extends HttpServlet {
+@WebServlet("/AjoutAnnonce")
+public class AjoutAnnonce extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LogManager.getLogger(StartupListener.class);
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public login() {
+    public AjoutAnnonce() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,54 +43,40 @@ public class login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		// Recuperate param
-		String pseudo = request.getParameter("pseudo");
-		String pwd = request.getParameter("pwd");
-		boolean page = false;
 		
-		// Create user
 		Utilisateur utilisateur = new Utilisateur();
+		utilisateur.setId(Constantes.PARAM_UTILISATEURS);
 		
-		// Take users
-		ArrayList<Utilisateur> users = new ArrayList<Utilisateur>();
-		IUserDao userDao = new UserDao();
-		users = (ArrayList<Utilisateur>) userDao.getAllUtilisateur();
+		String id = request.getParameter("id");
+		String titre = request.getParameter("titre");
+		String prix = request.getParameter("prix");
+		String resume = request.getParameter("resume");
 		
-		for(Utilisateur u : users) {
-			if(u.getPassword().equals(pwd) && u.getId().equals(pseudo))
-			{
-				utilisateur = u;
-				page = true;		
-			}
-		}
-		Constantes.PARAM_UTILISATEURS = utilisateur.getId();
+		Annonce 	annonce = new Annonce();
+		annonce.setId(Integer.parseInt(id));
+		annonce.setTitre(titre);
+		annonce.setPrix(Integer.parseInt(prix));
+		annonce.setDescription(resume);
+		annonce.setVendeur(utilisateur);
+		Timestamp ts = new Timestamp(new Date().getTime());
+		annonce.setCreation(ts);
 		
-		// Take Announce
-		ArrayList<Annonce> annonces = new ArrayList<Annonce>();
+		// annonces = new ArrayList<Annonce>();
 		IAnnonceDao annonceDao = new AnnonceDao();
-		annonces = (ArrayList<Annonce>) annonceDao.get(utilisateur);
-		logger.info("Servlet logging");
+				
+		int annoncesAdd = annonceDao.create(annonce);
 		
-		request.setAttribute("lesAnnonces", annonces);
-		
-		if(page)	{
-			// Logger connexion reussis
-			request.getRequestDispatcher("accueil.jsp").forward(request, response);
-		} else {
-			// Logger connexion échoué
-			request.getRequestDispatcher("login.html").forward(request, response);
-		}
-
+		logger.info("Servlet ajout annonce");
+		request.setAttribute("resultat", annoncesAdd);
+		request.getRequestDispatcher("response.jsp").forward(request, response);
 	}
 
 }
