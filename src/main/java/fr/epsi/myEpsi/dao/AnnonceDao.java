@@ -42,7 +42,7 @@ public class AnnonceDao implements IAnnonceDao {
 	    		// Connexion BDD
 	    		Class.forName("org.hsqldb.jdbcDriver");
 	    		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
-	    		logger.error("Connexion OK");
+	    		logger.info("Connexion OK");
 	    		
 	    		// Requete BDD
 	    		ResultSet resultats = null;
@@ -74,7 +74,7 @@ public class AnnonceDao implements IAnnonceDao {
 	    		// logger.error(annonces.get(0));
 	        	con.close();
 	    	} catch (ClassNotFoundException | SQLException e){
-	    		logger.debug("Connexion impossible " + e.getMessage());
+	    		logger.error("Connexion impossible " + e.getMessage());
 	    	}
 	    	
 	    		return annonces;
@@ -82,13 +82,13 @@ public class AnnonceDao implements IAnnonceDao {
 	
 	@Override
 	public boolean delete(long id) {
-		logger.error("Fonction de suppression Annonce DAO" + id);
+		logger.debug("Fonction de suppression Annonce DAO" + id);
 		boolean verifDelete = false;
     		try {
     			// Connexion BDD
     			Class.forName("org.hsqldb.jdbcDriver");
     			Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
-    			logger.error("Connexion OK");
+    			logger.info("Connexion OK");
     		
     			// Requete BDD
     			// ResultSet resultats = null;
@@ -98,7 +98,7 @@ public class AnnonceDao implements IAnnonceDao {
     			int nbMaj = stmt.executeUpdate(requete);
     			con.close();
     		} catch (ClassNotFoundException | SQLException e){
-    			logger.debug("Connexion impossible " + e.getMessage());
+    			logger.error("Connexion impossible " + e.getMessage());
     		}
     		return verifDelete;
 	}
@@ -111,7 +111,7 @@ public class AnnonceDao implements IAnnonceDao {
 			// Connexion BDD
 			Class.forName("org.hsqldb.jdbcDriver");
 			Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
-			logger.error("Connexion OK");
+			logger.info("Connexion OK");
 		
 			// Requete BDD
 			String requete = "INSERT INTO ANNONCES VALUES(" + annonce.getId() + ",'" + annonce.getTitre() +"','" + annonce.getDescription() + "','" + annonce.getVendeur().getId() + "','" + annonce.getCreation() +"',NULL," + annonce.getPrix() + ",'publie',NULL,NULL,NULL)";
@@ -120,7 +120,7 @@ public class AnnonceDao implements IAnnonceDao {
 			nbMaj = stmt.executeUpdate(requete);
 			con.close();
 		} catch (ClassNotFoundException | SQLException e){
-			logger.debug("Connexion impossible " + e.getMessage());
+			logger.error("Connexion impossible " + e.getMessage());
 		}
 		return nbMaj;
 	}
@@ -136,12 +136,12 @@ public class AnnonceDao implements IAnnonceDao {
 		// TODO Auto-generated method stub
 		
 		ArrayList<Annonce> annonces = new ArrayList<Annonce>();
-    	logger.error("Test de l'application");
+    	logger.debug("Test de l'application");
     	try {
     		// Connexion BDD
     		Class.forName("org.hsqldb.jdbcDriver");
     		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
-    		logger.error("Connexion OK");
+    		logger.info("Connexion OK");
     		
     		// Requete BDD
     		ResultSet resultats = null;
@@ -168,7 +168,7 @@ public class AnnonceDao implements IAnnonceDao {
     		// logger.error(annonces.get(0));
         	con.close();
     	} catch (ClassNotFoundException | SQLException e){
-    		logger.debug("Connexion impossible " + e.getMessage());
+    		logger.error("Connexion impossible " + e.getMessage());
     	}
 		
 		return annonces;

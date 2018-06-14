@@ -22,6 +22,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.epsi.myEpsi.beans.Utilisateur;
+import fr.epsi.myEpsi.mbeans.ChangeLog;
 import fr.epsi.myEpsi.mbeans.Premier;
 
 /**
@@ -49,11 +50,11 @@ public class StartupListener implements ServletContextListener {
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent event)  { 
-    	logger.error("Test de l'application");
+    	logger.info("Test de l'application");
     	try {
     		Class.forName("org.hsqldb.jdbcDriver");
     		Connection con = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9003","SA","");
-    		logger.error("Connexion OK");
+    		logger.info("Connexion OK");
         	con.close();
     	} catch (ClassNotFoundException | SQLException e){
     		logger.error("Connexion impossible " + e.getMessage());
@@ -65,8 +66,11 @@ public class StartupListener implements ServletContextListener {
     	try {
     	    name = new ObjectName("fr.epsi.jmx:type=PremierMBean");
     	    Premier mbean = new Premier();
-
     	    mbs.registerMBean(mbean, name);
+    	    
+    	    name = new ObjectName("fr.epsi.jmx:type=Changelog");
+    	    ChangeLog Log = new ChangeLog();
+    	    mbs.registerMBean(Log, name);
 
     	}
     	catch (MalformedObjectNameException e) {
